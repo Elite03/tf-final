@@ -1,7 +1,9 @@
 package com.api.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,7 +17,7 @@ public class Task implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private int id;
 	private String name;
 	private int priority;
 	private String status;
@@ -24,10 +26,12 @@ public class Task implements Serializable {
 	private User assignee;
 	private Date completionDate;
 
+	private List<TaskComment> taskComments = new ArrayList<>();
+
 	public Task() {
 	}
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -59,7 +63,11 @@ public class Task implements Serializable {
 		return completionDate;
 	}
 
-	public void setId(Long id) {
+	public List<TaskComment> getTaskComments() {
+		return taskComments;
+	}
+
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -91,11 +99,15 @@ public class Task implements Serializable {
 		this.completionDate = completionDate;
 	}
 
+	public void setTaskComments(List<TaskComment> taskComments) {
+		this.taskComments = taskComments;
+	}
+
 	@Override
 	public String toString() {
 		return "Task [id=" + id + ", name=" + name + ", priority=" + priority + ", status=" + status + ", createdBy="
 				+ createdBy + ", createedDate=" + createedDate + ", assignee=" + assignee + ", completionDate="
-				+ completionDate + "]";
+				+ completionDate + ", taskComments=" + taskComments + "]";
 	}
 
 }
