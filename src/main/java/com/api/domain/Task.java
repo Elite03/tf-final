@@ -9,6 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Task implements Serializable {
@@ -21,11 +24,17 @@ public class Task implements Serializable {
 	private String name;
 	private int priority;
 	private String status;
+
+	@OneToOne
 	private User createdBy;
 	private Date createedDate;
+
+	@OneToOne
 	private User assignee;
 	private Date completionDate;
 
+	@OneToMany
+	@JoinTable
 	private List<TaskComment> taskComments = new ArrayList<>();
 
 	public Task() {
