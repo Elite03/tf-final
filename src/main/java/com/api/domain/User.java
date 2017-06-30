@@ -7,6 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Type;
 
 @Entity
 public class User implements Serializable {
@@ -19,7 +23,20 @@ public class User implements Serializable {
 	private String name;
 	private String userName;
 	private String password;
+
+	@Temporal(TemporalType.DATE)
+	@Type(type = "date")
 	private Date dateOfBirth;
+
+	public User() {
+	}
+
+	public User(int id, String name, String userName, Date dateOfBirth) {
+		this.id = id;
+		this.name = name;
+		this.userName = userName;
+		this.dateOfBirth = dateOfBirth;
+	}
 
 	public int getId() {
 		return id;

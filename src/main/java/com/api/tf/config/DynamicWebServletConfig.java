@@ -1,6 +1,12 @@
 package com.api.tf.config;
 
+import java.util.EnumSet;
+
+import javax.servlet.DispatcherType;
+
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.MessageSource;
@@ -10,7 +16,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -21,6 +29,8 @@ import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
+
+import nz.net.ultraq.thymeleaf.LayoutDialect;
 
 @Configuration
 @ComponentScan("com.api")
@@ -46,6 +56,24 @@ public class DynamicWebServletConfig extends WebMvcConfigurerAdapter implements 
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 	}
 
+	@Override
+	public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
+		super.configureAsyncSupport(configurer);
+	}
+
+	@Autowired
+	public FilterRegistrationBean hiddenHttpMethodFilter() {
+		HiddenHttpMethodFilter filter = new HiddenHttpMethodFilter();
+		FilterRegistrationBean bean = new FilterRegistrationBean();
+
+		bean.setName("hiddenHttpMethodFilter");
+		bean.setFilter(filter);
+		bean.setDispatcherTypes(EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
+		bean.addUrlPatterns("/");
+		bean.setOrder(2);
+		return bean;
+	}
+
 	@Bean
 	public ITemplateResolver templateResolver() {
 		SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
@@ -61,6 +89,7 @@ public class DynamicWebServletConfig extends WebMvcConfigurerAdapter implements 
 	public TemplateEngine templateEngine() {
 		SpringTemplateEngine engine = new SpringTemplateEngine();
 		engine.setEnableSpringELCompiler(true);
+		engine.addDialect(new LayoutDialect());
 		engine.setTemplateResolver(templateResolver());
 		return engine;
 	}

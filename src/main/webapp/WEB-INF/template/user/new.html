@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+
+<!-- Optional theme -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" />
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<title>New User</title>
+</head>
+<body>
+	<h1 class="text-center">Create a New User</h1>
+	<hr />
+	<div class="container">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Enter user details here..</h3>
+			</div>
+			<div class="panel-body">
+				<!-- 			table began -->
+				<form action="#" method="post" th:action="@{/user/new}">
+					<div class="form-group" th:object="${user}">
+						<label for="txtUserName">User-name</label> <input
+							class="form-control" id="txtUserName" th:field="${user.name}"
+							placeholder="User Name" />
+					</div>
+					<div class="form-group">
+						<label for="txtName">Full Name</label> <input class="form-control"
+							id="txtName" th:field="${user.userName}" placeholder="User Name" />
+					</div>
+					<div class="form-group">
+						<label for="txtPassword">Password</label> <input type="password"
+							class="form-control" id="txtPassword" th:field="${user.password}"
+							placeholder="Password" />
+					</div>
+					<div class="form-group">
+						<label for="calDob">Date of Birth</label> <input
+							class="form-control" id="calDob" th:field="${user.dateOfBirth}"
+							placeholder="dd/MM/yyyy" />
+					</div>
+					<button type="submit" class="btn btn-success">Save</button>
+					<a href="#" class="btn btn-danger">Reset</a> <a href="#"
+						th:href="@{/}" class="btn btn-primary">Cancel</a>
+				</form>
+				<!-- 			table ends -->
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
