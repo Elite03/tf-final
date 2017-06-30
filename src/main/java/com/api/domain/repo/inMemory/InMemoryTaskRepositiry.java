@@ -80,4 +80,41 @@ public class InMemoryTaskRepositiry implements TaskDAO {
 				.collect(Collectors.toList());
 	}
 
+	@Override
+	public List<Task> findAllClosedTasks() {
+		return this.taskDB.stream().filter(task -> task.getStatus().equalsIgnoreCase("Closed"))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<Task> findClosedTasksByAssignee(int assignee) {
+		return this.findAllClosedTasks().stream().filter(task -> task.getAssignee().getId() == assignee)
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<Task> findClosedTasksByAssignee(String assigneeUserName) {
+		return this.findAllClosedTasks().stream().filter(task -> task.getAssignee().getName().equals(assigneeUserName))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public void deleteTask(Task task) {
+		taskDB.remove(task.getId());
+	}
+
+	@Override
+	public void addFile(int taskId, String fileName) {
+	}
+
+	@Override
+	public void deleteFile(int taskId, int fileId) {
+
+	}
+
+	@Override
+	public void deleteAllFiles(int taskId) {
+
+	}
+
 }

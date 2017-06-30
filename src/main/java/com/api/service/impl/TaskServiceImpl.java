@@ -41,18 +41,6 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public Task createTask(String name, int priority, int createdByuserId, int assigneeUserId) {
-		Task task = new Task();
-		task.setName(null);
-		task.setPriority(priority);
-		task.setCreatedBy(userService.findById(createdByuserId));
-		task.setAssignee(userService.findById(assigneeUserId));
-		task.setStatus("Open");
-		taskRepositiry.createTask(task);
-		return task;
-	}
-
-	@Override
 	public Task findTaskById(int taskId) {
 		return taskRepositiry.findById(taskId);
 	}
@@ -112,5 +100,63 @@ public class TaskServiceImpl implements TaskService {
 		}
 		logger.info("Task Completed");
 
+	}
+
+	@Override
+	public Task createTask(Task task) {
+		taskRepositiry.createTask(task);
+		return task;
+	}
+
+	@Override
+	public Task createTask(String name, int priority, int createdByuserId, int assigneeUserId, String comments) {
+		Task task = new Task();
+		task.setName(name);
+		task.setPriority(priority);
+		task.setCreatedBy(userService.findById(createdByuserId));
+		task.setAssignee(userService.findById(assigneeUserId));
+		task.setStatus("Open");
+		taskRepositiry.createTask(task);
+		return task;
+	}
+
+	@Override
+	public List<Task> findAllClosedTasks() {
+		return taskRepositiry.findAllClosedTasks();
+	}
+
+	@Override
+	public List<Task> findClosedTasksByAssignee(int assigneeId) {
+		return taskRepositiry.findClosedTasksByAssignee(assigneeId);
+	}
+
+	@Override
+	public List<Task> findClosedTasksByAssignee(String assigneeUserName) {
+		return taskRepositiry.findClosedTasksByAssignee(assigneeUserName);
+	}
+
+	@Override
+	public void reassignTask(int taskId, String comments, int assigneeId) {
+
+	}
+
+	@Override
+	public void deleteTask(int taskId) {
+		taskRepositiry.deleteTask(taskRepositiry.findById(taskId));
+	}
+
+	@Override
+	public void addFile(int taskId, String fileName) {
+		taskRepositiry.addFile(taskId, fileName);
+	}
+
+	@Override
+	public void deleteFile(int taskId, int fileId) {
+		taskRepositiry.deleteFile(taskId, fileId);
+	}
+
+	@Override
+	public void deleteAllFiles(int taskId) {
+		taskRepositiry.deleteAllFiles(taskId);
 	}
 }

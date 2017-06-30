@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -23,6 +25,10 @@ public class User implements Serializable {
 	private String name;
 	private String userName;
 	private String password;
+
+	@OneToOne
+	@JoinColumn
+	private File profileImage;
 
 	@Temporal(TemporalType.DATE)
 	@Type(type = "date")
@@ -48,6 +54,14 @@ public class User implements Serializable {
 
 	public String getUserName() {
 		return userName;
+	}
+
+	public File getProfileImage() {
+		return profileImage;
+	}
+
+	public void setProfileImage(File profileImage) {
+		this.profileImage = profileImage;
 	}
 
 	public String getPassword() {
@@ -81,7 +95,7 @@ public class User implements Serializable {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", userName=" + userName + ", password=" + password
-				+ ", dateOfBirth=" + dateOfBirth + "]";
+				+ ", profileImage=" + profileImage + ", dateOfBirth=" + dateOfBirth + "]";
 	}
 
 }

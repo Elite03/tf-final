@@ -20,10 +20,24 @@ public interface TaskDAO {
 
 	List<Task> findAllOpenTasks();
 
+	List<Task> findAllClosedTasks();
+
 	int findAllOpenTasksCount();
 
 	List<Task> findOpenTasksByAssignee(int assigneeId);
 
 	List<Task> findOpenTasksByAssignee(String assigneeUserName);
+
+	List<Task> findClosedTasksByAssignee(int assignee);
+
+	List<Task> findClosedTasksByAssignee(String assigneeUserName);
+
+	void deleteTask(Task task);
+
+	void addFile(int taskId, String fileName);
+
+	void deleteFile(int taskId, int fileId);
+
+	void deleteAllFiles(int taskId);
 
 }

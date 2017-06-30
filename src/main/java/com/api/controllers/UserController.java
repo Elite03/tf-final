@@ -1,5 +1,6 @@
 package com.api.controllers;
 
+import java.io.IOException;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.api.Util;
 import com.api.domain.User;
@@ -27,6 +30,7 @@ public class UserController {
 	private UserService userService;
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	private static final String PROFILE_IMAGE_SAVE_LOCATION = "/tmp/taskify/profileImages";
 
 	@GetMapping("/")
 	public String listAllUsers(Locale locale, Model model) {
@@ -71,6 +75,20 @@ public class UserController {
 	public String deleteUser(@PathVariable("id") int id, Model model) {
 		userService.deleteUser(userService.findById(id));
 		return "redirect:/user";
+	}
+
+	@GetMapping("/{userId}/profileForm")
+	public String uploadProfilePic(@PathVariable("userId") int userId, Model model) throws IOException {
+		model.addAttribute("user", userService.findById(userId));
+		return "user/upload";
+	}
+
+	@PostMapping("/{userId}/profileForm")
+	public String uploadProfilePic(@PathVariable("userId") int userId,
+			@RequestParam("profileImage") MultipartFile file) {
+		User user = userService.findById(userId);
+
+		return "redirect:/user/view" + user.getId();
 	}
 
 }
